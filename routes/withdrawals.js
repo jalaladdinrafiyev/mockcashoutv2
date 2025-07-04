@@ -1,5 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
+const path = require('path');
+const withdrawalIdsFile = path.join(__dirname, '../withdrawal_ids.txt');
+
+// Helper to append withdrawal_id to file
+function storeWithdrawalId(id) {
+  fs.appendFileSync(withdrawalIdsFile, id + '\n');
+}
+// Helper to check if withdrawal_id exists in file
+function withdrawalIdExists(id) {
+  if (!fs.existsSync(withdrawalIdsFile)) return false;
+  const ids = fs.readFileSync(withdrawalIdsFile, 'utf-8').split('\n');
+  return ids.includes(String(id));
+}
 
 // POST /api/withdrawals/reserve
 router.post('/reserve', (req, res) => {
@@ -13,6 +27,8 @@ router.post('/reserve', (req, res) => {
   }
   // Generate a random withdrawal_id as a long integer
   const withdrawal_id = Date.now() * 1000 + Math.floor(Math.random() * 1000);
+  // Store withdrawal_id
+  storeWithdrawalId(withdrawal_id);
   // Mock external API response
   const response = {
     withdrawal_id,
@@ -37,6 +53,10 @@ router.post('/process', (req, res) => {
   if (typeof amount !== 'number' || amount <= 0) {
     return res.status(400).json({ error: 'amount must be a positive number.' });
   }
+  // Check withdrawal_id exists
+  if (!withdrawalIdExists(withdrawal_id)) {
+    return res.status(400).json({ error: 'Invalid withdrawal_id.' });
+  }
   // Mock external API response
   const response = {
     status: 'pending'
@@ -60,6 +80,10 @@ router.post('/finalize', (req, res) => {
   }
   if (typeof amount !== 'number' || amount <= 0) {
     return res.status(400).json({ error: 'amount must be a positive number.' });
+  }
+  // Check withdrawal_id exists
+  if (!withdrawalIdExists(withdrawal_id)) {
+    return res.status(400).json({ error: 'Invalid withdrawal_id.' });
   }
   // Mock external API response
   const response = {
