@@ -7,8 +7,11 @@ const path = require('path');
 const withdrawalIdsFile = path.join(__dirname, '../withdrawal_ids.txt');
 if (fs.existsSync(withdrawalIdsFile)) fs.unlinkSync(withdrawalIdsFile);
 
-const BASE_URL = 'http://localhost:3000/api/withdrawals';
-const HEALTH_URL = 'http://localhost:3000/health';
+// const BASE_URL = 'http://localhost:3000/api/withdrawals';
+// const HEALTH_URL = 'http://localhost:3000/health';
+
+const BASE_URL = 'https://mockcashoutv2.onrender.com/api/withdrawals';
+const HEALTH_URL = 'https://mockcashoutv2.onrender.com/health';
 
 let server;
 function killServerAndExit(code = 0) {
