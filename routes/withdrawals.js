@@ -5,8 +5,8 @@ const router = express.Router();
 router.post('/reserve', (req, res) => {
   const { wallet_id, amount } = req.body;
   console.log('POST /api/withdrawals/reserve called with:', req.body);
-  // Generate a random withdrawal_id
-  const withdrawal_id = Math.random().toString(36).slice(2, 11);
+  // Generate a random withdrawal_id as a long integer
+  const withdrawal_id = Date.now() * 1000 + Math.floor(Math.random() * 1000);
   // Mock external API response
   const response = {
     withdrawal_id,
