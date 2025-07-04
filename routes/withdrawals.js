@@ -17,6 +17,7 @@ function withdrawalIdExists(id) {
 
 // POST /api/withdrawals/reserve
 router.post('/reserve', (req, res) => {
+  console.log('Incoming /reserve request body:', req.body);
   const { wallet_id, amount } = req.body;
   // Manual validation
   if (wallet_id === undefined || amount === undefined) {
@@ -42,6 +43,7 @@ router.post('/reserve', (req, res) => {
 
 // POST /api/withdrawals/process
 router.post('/process', (req, res) => {
+  console.log('Incoming /process request body:', req.body);
   const { withdrawal_id, amount } = req.body;
   // Manual validation
   if (withdrawal_id === undefined || amount === undefined) {
@@ -67,6 +69,7 @@ router.post('/process', (req, res) => {
 
 // POST /api/withdrawals/finalize
 router.post('/finalize', (req, res) => {
+  console.log('Incoming /finalize request body:', req.body);
   const { withdrawal_id, withdrawal_status, amount } = req.body;
   // Manual validation
   if (withdrawal_id === undefined || withdrawal_status === undefined || amount === undefined) {
