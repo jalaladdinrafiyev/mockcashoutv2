@@ -21,9 +21,11 @@ router.post('/reserve', (req, res) => {
   const { wallet_id, amount } = req.body;
   // Manual validation
   if (wallet_id === undefined || amount === undefined) {
+    console.error('Error: wallet_id and amount are required.', req.body);
     return res.status(400).json({ error: 'wallet_id and amount are required.' });
   }
   if (typeof amount !== 'number' || amount <= 0) {
+    console.error('Error: amount must be a positive number.', req.body);
     return res.status(400).json({ error: 'amount must be a positive number.' });
   }
   // Generate a random withdrawal_id as a long integer
@@ -47,16 +49,20 @@ router.post('/process', (req, res) => {
   const { withdrawal_id, amount } = req.body;
   // Manual validation
   if (withdrawal_id === undefined || amount === undefined) {
+    console.error('Error: withdrawal_id and amount are required.', req.body);
     return res.status(400).json({ error: 'withdrawal_id and amount are required.' });
   }
   if (typeof withdrawal_id !== 'number') {
+    console.error('Error: withdrawal_id must be a number.', req.body);
     return res.status(400).json({ error: 'withdrawal_id must be a number.' });
   }
   if (typeof amount !== 'number' || amount <= 0) {
+    console.error('Error: amount must be a positive number.', req.body);
     return res.status(400).json({ error: 'amount must be a positive number.' });
   }
   // Check withdrawal_id exists
   if (!withdrawalIdExists(withdrawal_id)) {
+    console.error('Error: Invalid withdrawal_id.', req.body);
     return res.status(400).json({ error: 'Invalid withdrawal_id.' });
   }
   // Mock external API response
@@ -73,19 +79,24 @@ router.post('/finalize', (req, res) => {
   const { withdrawal_id, withdrawal_status, amount } = req.body;
   // Manual validation
   if (withdrawal_id === undefined || withdrawal_status === undefined || amount === undefined) {
+    console.error('Error: withdrawal_id, withdrawal_status, and amount are required.', req.body);
     return res.status(400).json({ error: 'withdrawal_id, withdrawal_status, and amount are required.' });
   }
   if (typeof withdrawal_id !== 'number') {
+    console.error('Error: withdrawal_id must be a number.', req.body);
     return res.status(400).json({ error: 'withdrawal_id must be a number.' });
   }
   if (typeof withdrawal_status !== 'string') {
+    console.error('Error: withdrawal_status must be a string.', req.body);
     return res.status(400).json({ error: 'withdrawal_status must be a string.' });
   }
   if (typeof amount !== 'number' || amount <= 0) {
+    console.error('Error: amount must be a positive number.', req.body);
     return res.status(400).json({ error: 'amount must be a positive number.' });
   }
   // Check withdrawal_id exists
   if (!withdrawalIdExists(withdrawal_id)) {
+    console.error('Error: Invalid withdrawal_id.', req.body);
     return res.status(400).json({ error: 'Invalid withdrawal_id.' });
   }
   // Mock external API response
